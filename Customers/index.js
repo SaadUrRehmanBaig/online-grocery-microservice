@@ -1,11 +1,15 @@
 const express = require("express");
+const { PORT } = require("./config")
+const { databaseConnection } = require('./database')
 
-const app = express();
 
-app.use("/", (req, res, next) => {
-    res.send("Customer service up")
-})
+const startCustomerService = async () => {
+    const app = express();
+    await databaseConnection();
+    await require("./express-app")(app)
+    app.listen(PORT, () => {
+        console.log("Customer Service listening on PORT", PORT)
+    })
+}
 
-app.listen(3001, () => {
-    console.log("Customer service runnig on port 3001")
-})
+startCustomerService()

@@ -8,8 +8,11 @@ app.use(express.json());
 app.use(cors())
 
 app.use("/customer", proxy("http://localhost:3001"));
-app.use("/", proxy("http://localhost:3002")); // products
+app.use("/products", proxy("http://localhost:3002")); // products
 app.use("/shopping", proxy("http://localhost:3003"));
+app.use("*", (req, res) => {
+    res.send("hi from gateway")
+})
 
 
 app.listen(3000, () => {
